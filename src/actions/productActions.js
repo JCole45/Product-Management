@@ -7,12 +7,15 @@ export const fetchProduct = () => async (dispatch) => {
         dispatch({ type: FETCH_PRODUCT_REQUEST })
 
         const { data } = await axios.get(`http://www.mocky.io/v2/5c3e15e63500006e003e9795`)
+        const {products} = data
 
+        console.log(data)
         dispatch({
             type: FETCH_PRODUCT_SUCCESS,
-            payload: data
+            payload: products
         })
     } catch (err) {
+        console.log(err)
         dispatch({
             type: FETCH_PRODUCT_FAIL,
             payload: err

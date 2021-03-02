@@ -5,7 +5,7 @@ export const productReducer = (state = { products: [], loading: false }, action)
         case FETCH_PRODUCT_REQUEST:
             return { products: [], loading: true }
         case FETCH_PRODUCT_SUCCESS:
-            return { products: [action.payload], loading: false }
+            return { products: [...action.payload], loading: false }
         case FETCH_PRODUCT_FAIL:
             return { products: [], loading: false, error: action.payload }
 
