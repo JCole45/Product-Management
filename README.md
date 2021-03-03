@@ -8,6 +8,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - install dependencies
 - run app in develoment mode
 
+### Demo link
+https://eloquent-hugle-44ec10.netlify.app/
+
 ### `Clone repo`
 - run: git clone https://github.com/JCole45/Product-Management.git
 
