@@ -10,7 +10,6 @@ export const fetchProduct = () => async (dispatch) => {
         const {products} = data
         
         products.forEach((item) => {
-            console.log(item)
             dispatch({
                type: FETCH_PRODUCT_SUCCESS,
                payload: item

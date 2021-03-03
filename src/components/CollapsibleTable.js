@@ -259,7 +259,6 @@ const CollapsibleTable = (props) => {
                                     <TableRow>
                                         <TableCell>Price</TableCell>
                                         <TableCell>Date</TableCell>
-                                        <TableCell align="right">Total price ($)</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -268,9 +267,6 @@ const CollapsibleTable = (props) => {
                                             <TableCell>GH&cent;{historyRow.price}</TableCell>
                                             <TableCell component="th" scope="row">
                                                 {historyRow.date}
-                                            </TableCell>
-                                            <TableCell align="right">
-                                                {historyRow.price}
                                             </TableCell>
                                         </TableRow>
                                     ))}

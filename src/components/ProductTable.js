@@ -75,7 +75,7 @@ const ProductTable = () => {
 
     useEffect(() => {
         dispatch(fetchProduct())
-    }, [])
+    }, [dispatch])
 
     const [open, setOpen] = useState(false);
     const [state, setState] = useState('')
@@ -93,8 +93,6 @@ const ProductTable = () => {
     }
 
     const rows = products.map(item => {
-        console.log(item)
-        console.log(products)
         let a = item.hidden && item.hidden === true ? false : true
         return createData(item.name, item.prices, item.id, a)
     })

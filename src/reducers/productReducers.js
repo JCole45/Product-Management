@@ -3,7 +3,6 @@ import { CREATE_PRODUCT, DELETE_PRODUCT, FETCH_PRODUCT_FAIL, FETCH_PRODUCT_REQUE
 const checkProducts = (products, newItem) => {
     for(var i =0; i<products.length; i++){
         if(products[i].id === newItem.id){
-            console.log()
             return false
         }
     }
