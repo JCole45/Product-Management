@@ -266,7 +266,7 @@ const CollapsibleTable = (props) => {
                                         <TableRow key={historyRow.date}>
                                             <TableCell>GH&cent;{historyRow.price}</TableCell>
                                             <TableCell component="th" scope="row">
-                                                {historyRow.date}
+                                                {new Date(historyRow.date).toString()}
                                             </TableCell>
                                         </TableRow>
                                     ))}
