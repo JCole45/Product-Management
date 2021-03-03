@@ -8,12 +8,18 @@ export const fetchProduct = () => async (dispatch) => {
 
         const { data } = await axios.get(`http://www.mocky.io/v2/5c3e15e63500006e003e9795`)
         const {products} = data
-
-        console.log(data)
-        dispatch({
-            type: FETCH_PRODUCT_SUCCESS,
-            payload: products
+        
+        products.forEach((item) => {
+            console.log(item)
+            dispatch({
+               type: FETCH_PRODUCT_SUCCESS,
+               payload: item
+            })
         })
+        // dispatch({
+        //     type: FETCH_PRODUCT_SUCCESS,
+        //     payload: products
+        // })
     } catch (err) {
         console.log(err)
         dispatch({
@@ -23,23 +29,32 @@ export const fetchProduct = () => async (dispatch) => {
     }
 }
 
-export const createProduct = (productInfo) => (dispatch) => {
+export const createProduct = (productInfo) => (dispatch, getState) => {
     dispatch({
         type: CREATE_PRODUCT,
         payload: productInfo
     })
+
+    localStorage.setItem('storePharmacyProducts', JSON.stringify(getState().product.products))
+
 }
 
-export const updateProduct = (productInfo) => (dispatch) => {
+export const updateProduct = (productInfo) => (dispatch, getState) => {
     dispatch({
         type: UPDATE_PRODUCT,
         payload: productInfo
     })
+
+    localStorage.setItem('storePharmacyProducts', JSON.stringify(getState().product.products))
+
 }
 
-export const deleteProduct = (id) => (dispatch) => {
+export const deleteProduct = (id) => (dispatch, getState) => {
     dispatch({
         type: DELETE_PRODUCT,
         payload: id
     })
+
+    localStorage.setItem('storePharmacyProducts', JSON.stringify(getState().product.products))
+
 }

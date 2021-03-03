@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table row snapshot renders 1`] = `
+Array [
+  <tr
+    className="MuiTableRow-root makeStyles-root-1"
+    role={null}
+  >
+    <td
+      aria-sort={null}
+      className="MuiTableCell-root"
+    >
+      <button
+        aria-label="expand row"
+        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="button"
+      >
+        <span
+          className="MuiIconButton-label"
+        >
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"
+            />
+          </svg>
+        </span>
+      </button>
+    </td>
+    <th
+      aria-sort={null}
+      className="MuiTableCell-root makeStyles-cellshadevisible-7"
+      role="cell"
+      scope="row"
+    >
+      Test
+    </th>
+    <td
+      aria-sort={null}
+      className="MuiTableCell-root makeStyles-cellshadevisible-7 MuiTableCell-alignRight"
+    >
+      GH¢ 
+      10.00
+    </td>
+    <td
+      aria-sort={null}
+      className="MuiTableCell-root makeStyles-cellshadevisible-7 MuiTableCell-alignRight"
+    >
+      Invalid Date
+    </td>
+    <td
+      aria-sort={null}
+      className="MuiTableCell-root makeStyles-cellshadevisible-7 MuiTableCell-alignRight"
+    >
+      <svg
+        aria-hidden={true}
+        className="MuiSvgIcon-root MuiSvgIcon-colorPrimary"
+        focusable="false"
+        onClick={[Function]}
+        rowshade="icon-edit"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+        />
+      </svg>
+      <svg
+        aria-hidden={true}
+        className="MuiSvgIcon-root icon-delete"
+        focusable="false"
+        onClick={[Function]}
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"
+        />
+      </svg>
+    </td>
+  </tr>,
+  <tr
+    className="MuiTableRow-root"
+    role={null}
+  >
+    <td
+      aria-sort={null}
+      className="MuiTableCell-root"
+      colSpan={6}
+      style={
+        Object {
+          "paddingBottom": 0,
+          "paddingTop": 0,
+        }
+      }
+    />
+  </tr>,
+]
+`;

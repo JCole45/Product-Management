@@ -5,3 +5,28 @@
   max-width: 100%;
   padding: 1em 1em;
 }
+
+.icon-delete, .icon-edit {
+  cursor: pointer;
+}
+
+.icon-edit {
+  margin-right: 30px;
+}
+
+.icon-delete{
+  color: red
+}
+
+.button{
+  margin-top: 20px !important;
+  margin-bottom: 5px !important;
+  margin-right: 3px !important;
+}
+
+.head {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

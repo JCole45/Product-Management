@@ -1,44 +1,37 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { makeStyles } from '@material-ui/core/styles';
 import { Button } from "@material-ui/core";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
-import CollapsibleTable from './CollapsibleTable'
-import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
 import { v4 as uuidv4 } from 'uuid';
-import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import EditIcon from '@material-ui/icons/Edit';
 
-import { fetchProduct, createProduct, updateProduct } from '../actions/productActions'
+import { createProduct, updateProduct, deleteProduct } from '../actions/productActions'
 
-// const StyledTableCell = withStyles((theme) => ({
-//     head: {
-//         backgroundColor: theme.palette.common.black,
-//         color: theme.palette.common.white,
-//     },
-//     body: {
-//         fontSize: 14,
-//     },
-// }))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
+const useRowStyles = makeStyles({
     root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.common.black,
-            color: 'white'
+        '& > *': {
+            borderBottom: 'unset',
         },
     },
-}))(TableRow);
+});
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -63,19 +56,23 @@ const useStyles = makeStyles((theme) => ({
         width: '60%',
     },
     headcolor: {
-        color: 'white'
+        color:'white'
     },
-
+    cellshadevisible: {
+        color: 'black'
+    },
+    cellshadehidden: {
+        color: 'grey'
+    },
 }));
 
-const ProductTable = () => {
+const CollapsibleTable = (props) => {
+    const { row, visible } = props;
+    const [open_history, setOpenHistory] = React.useState(false);
+    const classes_ = useRowStyles();
 
     const dispatch = useDispatch()
     const classes = useStyles();
-
-    useEffect(() => {
-        dispatch(fetchProduct())
-    }, [])
 
     const [open, setOpen] = useState(false);
     const [state, setState] = useState('')
@@ -83,26 +80,14 @@ const ProductTable = () => {
     const [id, setId] = useState('')
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
-    const [showall, setShowAll] = useState(false)
 
-    const store = useSelector(state => state.product)
-    const { products } = store
-
-    function createData(name, _prices, _id, visible) {
-        return { name, _prices, history: _prices, _id, visible };
-    }
-
-    const rows = products.map(item => {
-        console.log(item)
-        console.log(products)
-        let a = item.hidden && item.hidden === true ? false : true
-        return createData(item.name, item.prices, item.id, a)
-    })
-
-    const addProduct = () => {
-        setOpen(true)
-        setState('add')
-    }
+    const editProduct = (item) => {
+        setOpen(true);
+        setState('edit')
+        setName(item.name)
+        setPrice(item._prices[0].price)
+        setId(item._id)
+    };
 
     const handleModalClose = () => {
         setOpen(false);
@@ -114,6 +99,10 @@ const ProductTable = () => {
 
     const handlePrice = (e) => {
         setPrice(e.target.value)
+    }
+
+    const handleDelete = (id) => {
+        dispatch(deleteProduct(id))
     }
 
     const getDate = () => {
@@ -172,12 +161,16 @@ const ProductTable = () => {
         }
     }
 
-    const handleShowAll = () => {
-        setShowAll(!showall)
+    const sortbyDate = (array) => {
+        return array.sort(function (a, b) {
+            return new Date(b.date) - new Date(a.date)
+        })
     }
 
+    const rowshade = visible ? classes.cellshadevisible : classes.cellshadehidden
+
     return (
-        <>
+        <React.Fragment>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -233,42 +226,62 @@ const ProductTable = () => {
                 </Fade>
             </Modal>
 
-            <TableContainer component={Paper}>
-                <div className="head">
-                <AddCircleRoundedIcon color="primary" style={{ fontSize: '50px' }} onClick={addProduct} />
-                <Button className="button" onClick={handleShowAll}  color="primary" variant="contained" size="small">
-                    {showall ? 'Show Current' : 'Show All'}
-                </Button>
-                </div>
-                <Table className={classes.table} aria-label="customized table">
-                    <TableHead>
-                        <StyledTableRow>
-                            <TableCell className={classes.headcolor} />
-                            <TableCell className={classes.headcolor}>Name</TableCell>
-                            <TableCell className={classes.headcolor} align="right">Price</TableCell>
-                            <TableCell className={classes.headcolor} align="center">Date</TableCell>
-                            <TableCell className={classes.headcolor} align="right"> Action </TableCell>
-                        </StyledTableRow>
-                    </TableHead>
-
-                    <TableBody>
-                        {rows.map((row) => {
-                            if(!showall) {
-                               return (row.visible && 
-                                    <CollapsibleTable visible={row.visible} key={row.id} row={row} />)
-                                
-                            }
-                            if(showall){
-                               return <CollapsibleTable visible={row.visible} key={row.id} row={row} />
-                            }
-                        }
-                        )}
-                    </TableBody>
-
-                </Table>
-            </TableContainer>
-        </>
-    )
+            <TableRow className={classes_.root}>
+                <TableCell>
+                    <IconButton aria-label="expand row" size="small" onClick={() => setOpenHistory(!open_history)}>
+                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                    </IconButton>
+                </TableCell>
+                <TableCell className={rowshade} component="th" scope="row">
+                    {row.name}
+                </TableCell>
+                {/* <TableCell align="right">{row.name}</TableCell> */}
+                <TableCell className={rowshade} align="right">GH&cent; {sortbyDate(row._prices)[0].price.toFixed(2)}</TableCell>
+                <TableCell className={rowshade} align="right">{new Date(sortbyDate(row._prices)[0].date).toString()}</TableCell>
+                <TableCell className={rowshade} align="right">
+                    {visible &&
+                    <>
+                    <EditIcon color="primary" rowshade="icon-edit" onClick={() => editProduct(row)} />
+                    <DeleteOutlinedIcon className="icon-delete" onClick={() => handleDelete(row._id)} />
+                    </>
+                    }
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                    <Collapse in={open_history} timeout="auto" unmountOnExit>
+                        <Box margin={1}>
+                            <Typography variant="h6" gutterBottom component="div">
+                                Price History
+                            </Typography>
+                            <Table size="small" aria-label="purchases">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Price</TableCell>
+                                        <TableCell>Date</TableCell>
+                                        <TableCell align="right">Total price ($)</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {row.history.map((historyRow) => (
+                                        <TableRow key={historyRow.date}>
+                                            <TableCell>GH&cent;{historyRow.price}</TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {historyRow.date}
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                {historyRow.price}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </Box>
+                    </Collapse>
+                </TableCell>
+            </TableRow>
+        </React.Fragment>
+    );
 }
 
-export default ProductTable
+export default CollapsibleTable
