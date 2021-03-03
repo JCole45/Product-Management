@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { CREATE_PRODUCT, DELETE_PRODUCT, FETCH_PRODUCT_FAIL, FETCH_PRODUCT_REQUEST, FETCH_PRODUCT_SUCCESS, UPDATE_PRODUCT } from "../constants/productConstants"
+import { CREATE_PRODUCT, DELETE_PRODUCT, FETCH_PRODUCT_FAIL, FETCH_PRODUCT_REQUEST, FETCH_PRODUCT_SUCCESS, UPDATE_PRODUCT, RESTORE_PRODUCT } from "../constants/productConstants"
 
 
 export const fetchProduct = () => async (dispatch) => {
@@ -46,6 +46,15 @@ export const updateProduct = (productInfo) => (dispatch, getState) => {
 
     localStorage.setItem('storePharmacyProducts', JSON.stringify(getState().product.products))
 
+}
+
+export const restoreProduct = (productId) => (dispatch, getState) => {
+    dispatch({
+        type: RESTORE_PRODUCT,
+        payload: productId
+    })
+
+    localStorage.setItem('storePharmacyProducts', JSON.stringify(getState().product.products))
 }
 
 export const deleteProduct = (id) => (dispatch, getState) => {

@@ -1,4 +1,4 @@
-import { CREATE_PRODUCT, DELETE_PRODUCT, FETCH_PRODUCT_FAIL, FETCH_PRODUCT_REQUEST, FETCH_PRODUCT_SUCCESS, UPDATE_PRODUCT } from "../constants/productConstants";
+import { CREATE_PRODUCT, DELETE_PRODUCT, FETCH_PRODUCT_FAIL, FETCH_PRODUCT_REQUEST, FETCH_PRODUCT_SUCCESS, UPDATE_PRODUCT,RESTORE_PRODUCT } from "../constants/productConstants";
 
 const checkProducts = (products, newItem) => {
     for(var i =0; i<products.length; i++){
@@ -41,6 +41,19 @@ export const productReducer = (state = { products: [], loading: false }, action)
                 })
             }
 
+        case RESTORE_PRODUCT:
+            return {
+                products: state.products.map(product => {
+                    return action.payload === product.id ?
+                    {
+                        id: product.id,
+                        name: product.name,
+                        prices: product.prices
+                    }
+                    :
+                    product
+                })
+            }
 
         case DELETE_PRODUCT:
             return {

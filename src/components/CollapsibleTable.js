@@ -23,7 +23,7 @@ import { v4 as uuidv4 } from 'uuid';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import EditIcon from '@material-ui/icons/Edit';
 
-import { createProduct, updateProduct, deleteProduct } from '../actions/productActions'
+import { createProduct, updateProduct, deleteProduct, restoreProduct } from '../actions/productActions'
 
 const useRowStyles = makeStyles({
     root: {
@@ -167,6 +167,10 @@ const CollapsibleTable = (props) => {
         })
     }
 
+    const handleRestore = (id) => {
+       dispatch(restoreProduct(id))
+    }
+
     const rowshade = visible ? classes.cellshadevisible : classes.cellshadehidden
 
     return (
@@ -239,11 +243,15 @@ const CollapsibleTable = (props) => {
                 <TableCell className={rowshade} align="right">GH&cent; {sortbyDate(row._prices)[0].price.toFixed(2)}</TableCell>
                 <TableCell className={rowshade} align="right">{new Date(sortbyDate(row._prices)[0].date).toString()}</TableCell>
                 <TableCell className={rowshade} align="right">
-                    {visible &&
+                    {visible ?
                     <>
                     <EditIcon color="primary" rowshade="icon-edit" onClick={() => editProduct(row)} />
                     <DeleteOutlinedIcon className="icon-delete" onClick={() => handleDelete(row._id)} />
                     </>
+                    :
+                    <Button onClick={()=> handleRestore(row._id)}  color="primary" variant="contained" size="small">
+                        Restore
+                    </Button>
                     }
                 </TableCell>
             </TableRow>
