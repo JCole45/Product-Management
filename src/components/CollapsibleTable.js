@@ -195,7 +195,7 @@ const CollapsibleTable = (props) => {
                                 <TextField
                                     id="name"
                                     name="name"
-                                    label={"Drug name"}
+                                    label={"Item name"}
                                     type={"text"}
                                     fullWidth
                                     onChange={handleName}
