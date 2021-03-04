@@ -207,6 +207,7 @@ const CollapsibleTable = (props) => {
                                     name="price"
                                     label={"Price"}
                                     type={"number"}
+                                    step="any"
                                     onChange={handlePrice}
                                     value={price}
                                     fullWidth
@@ -265,13 +266,15 @@ const CollapsibleTable = (props) => {
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow>
+                                        <TableCell>ID</TableCell>
                                         <TableCell>Price</TableCell>
                                         <TableCell>Date</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {row.history.map((historyRow) => (
-                                        <TableRow key={historyRow.date}>
+                                        <TableRow key={historyRow.id}>
+                                            <TableCell>{historyRow.id}</TableCell>
                                             <TableCell>GH&cent;{historyRow.price}</TableCell>
                                             <TableCell component="th" scope="row">
                                                 {new Date(historyRow.date).toString()}

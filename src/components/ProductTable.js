@@ -208,6 +208,7 @@ const ProductTable = () => {
                                     name="price"
                                     label={"Price"}
                                     type={"number"}
+                                    step="any"
                                     onChange={handlePrice}
                                     value={price}
                                     fullWidth
