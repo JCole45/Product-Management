@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { Button } from "@material-ui/core";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import CollapsibleTable from './CollapsibleTable'
 import Paper from '@material-ui/core/Paper';
@@ -18,55 +18,8 @@ import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
 import { v4 as uuidv4 } from 'uuid';
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
-
+import {useStyles, StyledTableRow} from '../Styles/styles'
 import { fetchProduct, createProduct, updateProduct } from '../actions/productActions'
-
-// const StyledTableCell = withStyles((theme) => ({
-//     head: {
-//         backgroundColor: theme.palette.common.black,
-//         color: theme.palette.common.white,
-//     },
-//     body: {
-//         fontSize: 14,
-//     },
-// }))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.common.black,
-            color: 'white'
-        },
-    },
-}))(TableRow);
-
-const useStyles = makeStyles((theme) => ({
-    table: {
-        minWidth: 700,
-    },
-    dropdownLink: {
-        padding: theme.spacing(1),
-        flexShrink: 0,
-        color: 'black !important',
-        fontSize: '0.905rem '
-    },
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    paper: {
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-        width: '60%',
-    },
-    headcolor: {
-        color: 'white'
-    },
-
-}));
 
 const ProductTable = () => {
 
@@ -80,10 +33,22 @@ const ProductTable = () => {
     const [open, setOpen] = useState(false);
     const [state, setState] = useState('')
 
-    const [id, setId] = useState('')
-    const [name, setName] = useState('')
-    const [price, setPrice] = useState('')
+    // const [id ] = useState('')
+    // const [name, setName] = useState('')
+    // const [price, setPrice] = useState('')
     const [showall, setShowAll] = useState(false)
+    const [form, setForm] = useState({
+      id: '',
+      name: '',
+      price: '',
+    })
+    const [show, setShow] = useState({
+      state: false,
+      changeState: function(){
+        alert('working')
+        this.state = !this.state
+      }
+    })
 
     const store = useSelector(state => state.product)
     const { products } = store
@@ -105,14 +70,6 @@ const ProductTable = () => {
     const handleModalClose = () => {
         setOpen(false);
     };
-
-    const handleName = (e) => {
-        setName(e.target.value)
-    }
-
-    const handlePrice = (e) => {
-        setPrice(e.target.value)
-    }
 
     const getDate = () => {
         Date.prototype.toIsoString = function () {
@@ -137,36 +94,42 @@ const ProductTable = () => {
         return date.toIsoString()
     }
 
+    const handleChange  = (e) => {
+      // show.changeState()
+      let intermediary = {...form}
+      intermediary[e.target.name] = e.target.value
+      setForm(intermediary)
+      console.log(form)
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
         if (state === 'add') {
             dispatch(createProduct({
                 id: uuidv4(),
-                name: name,
+                name: form.name,
                 prices: [{
                     id: uuidv4(),
-                    price: Number(price),
+                    price: Number(form.price),
                     date: getDate()
                 }]
             }))
             setOpen(false);
-            setName('')
-            setPrice()
+            setForm({id:'', name:'', price:''})
         }
 
         if (state === 'edit') {
             dispatch(updateProduct({
-                id: id,
-                name: name,
+                id: form.id,
+                name: form.name,
                 prices: {
                     id: uuidv4(),
-                    price: Number(price),
+                    price: Number(form.price),
                     date: getDate()
                 }
             }))
             setOpen(false);
-            setName('')
-            setPrice()
+            setForm({id:'', name:'', price:''})
         }
     }
 
@@ -199,8 +162,8 @@ const ProductTable = () => {
                                     label={"Item name"}
                                     type={"text"}
                                     fullWidth
-                                    onChange={handleName}
-                                    value={name}
+                                    onChange={handleChange}
+                                    value={form.name}
                                 />
 
                                 <TextField
@@ -209,8 +172,8 @@ const ProductTable = () => {
                                     label={"Price"}
                                     type={"number"}
                                     step="any"
-                                    onChange={handlePrice}
-                                    value={price}
+                                    onChange={handleChange}
+                                    value={form.price}
                                     fullWidth
                                 />
                             </Grid>
@@ -234,7 +197,9 @@ const ProductTable = () => {
 
             <TableContainer component={Paper}>
                 <div className="head">
+                <Tooltip title="Add new item" placement="right" arrow>
                 <AddCircleRoundedIcon color="primary" style={{ fontSize: '50px' }} onClick={addProduct} />
+                </Tooltip>
                 <Button className="button" onClick={handleShowAll}  color="primary" variant="contained" size="small">
                     {showall ? 'Show Current' : 'Show All'}
                 </Button>
@@ -253,9 +218,9 @@ const ProductTable = () => {
                     <TableBody>
                         {rows.map((row) => {
                             if(!showall) {
-                               return (row.visible && 
+                               return (row.visible &&
                                     <CollapsibleTable visible={row.visible} key={row.id} row={row} />)
-                                
+
                             }
                             if(showall){
                                return <CollapsibleTable visible={row.visible} key={row.id} row={row} />

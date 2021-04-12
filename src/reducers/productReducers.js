@@ -6,6 +6,7 @@ const checkProducts = (products, newItem) => {
             return false
         }
     }
+    console.log("value of i :", i)
     return true
 }
 
@@ -15,16 +16,16 @@ export const productReducer = (state = { products: [], loading: false }, action)
             return { products: state.products, loading: true }
         case FETCH_PRODUCT_SUCCESS:
             //return { products: [...state.products,  ...action.payload], loading: false }
-            return checkProducts(state.products, action.payload) ? 
-                  {products: [...state.products, action.payload], loading: false} 
+            return checkProducts(state.products, action.payload) ?
+                  {products: [...state.products, action.payload], loading: false}
                   :
-                  {products: state.products, loading:false} 
+                  {products: state.products, loading:false}
         case FETCH_PRODUCT_FAIL:
             return { products: [], loading: false, error: action.payload }
 
 
         case CREATE_PRODUCT:
-            return { products: [...state.products, action.payload], loading: false }
+            return { products: [action.payload, ...state.products], loading: false }
 
 
         case UPDATE_PRODUCT:
@@ -33,10 +34,10 @@ export const productReducer = (state = { products: [], loading: false }, action)
                     return action.payload.id === product.id ?
                         {
                             id: action.payload.id,
-                            name: action.payload.name, 
+                            name: action.payload.name,
                             prices: action.payload.prices.price === product.prices[0].price ? product.prices : [...product.prices, action.payload.prices]
                         }
-                        : 
+                        :
                         product
                 })
             }
