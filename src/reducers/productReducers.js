@@ -1,12 +1,11 @@
 import { CREATE_PRODUCT, DELETE_PRODUCT, FETCH_PRODUCT_FAIL, FETCH_PRODUCT_REQUEST, FETCH_PRODUCT_SUCCESS, UPDATE_PRODUCT,RESTORE_PRODUCT } from "../constants/productConstants";
 
 const checkProducts = (products, newItem) => {
-    for(var i =0; i<products.length; i++){
+    for(let i =0; i<products.length; i++){
         if(products[i].id === newItem.id){
             return false
         }
     }
-    console.log("value of i :", i)
     return true
 }
 
@@ -15,7 +14,6 @@ export const productReducer = (state = { products: [], loading: false }, action)
         case FETCH_PRODUCT_REQUEST:
             return { products: state.products, loading: true }
         case FETCH_PRODUCT_SUCCESS:
-            //return { products: [...state.products,  ...action.payload], loading: false }
             return checkProducts(state.products, action.payload) ?
                   {products: [...state.products, action.payload], loading: false}
                   :

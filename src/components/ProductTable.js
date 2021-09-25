@@ -8,7 +8,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Tooltip from '@material-ui/core/Tooltip';
-
 import CollapsibleTable from './CollapsibleTable'
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
@@ -33,9 +32,6 @@ const ProductTable = () => {
     const [open, setOpen] = useState(false);
     const [state, setState] = useState('')
 
-    // const [id ] = useState('')
-    // const [name, setName] = useState('')
-    // const [price, setPrice] = useState('')
     const [showall, setShowAll] = useState(false)
     const [form, setForm] = useState({
       id: '',
@@ -95,7 +91,6 @@ const ProductTable = () => {
     }
 
     const handleChange  = (e) => {
-      // show.changeState()
       let intermediary = {...form}
       intermediary[e.target.name] = e.target.value
       setForm(intermediary)
