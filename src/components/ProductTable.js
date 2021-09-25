@@ -6,7 +6,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Tooltip from '@material-ui/core/Tooltip';
 import CollapsibleTable from './CollapsibleTable'
 import Paper from '@material-ui/core/Paper';
@@ -37,13 +36,6 @@ const ProductTable = () => {
       id: '',
       name: '',
       price: '',
-    })
-    const [show, setShow] = useState({
-      state: false,
-      changeState: function(){
-        alert('working')
-        this.state = !this.state
-      }
     })
 
     const store = useSelector(state => state.product)
